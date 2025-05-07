@@ -38,6 +38,21 @@ const config = {
             }
         })
     ],
+    export default {
+  kit: {
+    adapter: adapter(),
+    prerender: {
+      handleHttpError: ({ path, statusCode }) => {
+        // version.json hatasını görmezden gel
+        if (path === '/version.json' && statusCode === 500) {
+          return;
+        }
+        // Diğer hataları fırlat
+        throw new Error(`HTTP ${statusCode} hatası: ${path}`);
+      }
+    }
+  }
+};
     kit: {
         adapter: adapter({
             // default options are shown. On some platforms
